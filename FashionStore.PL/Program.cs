@@ -1,4 +1,12 @@
 
+using FashionStore.BLL;
+using FashionStore.DAL;
+using FashionStore.DAL.Interfaces;
+using FashionStore.DAL.Repositories;
+using FashionStore.PL.Extentions;
+using FashionStore.PL.Middlewares;
+using StackExchange.Redis;
+
 namespace FashionStore.PL
 {
     public class Program
@@ -9,12 +17,29 @@ namespace FashionStore.PL
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddControllers().ConfigureApiBehaviorOptions(option =>
+            {
+                option.SuppressModelStateInvalidFilter = true;
+            });
+
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(service =>
+            {
+                var connection = builder.Configuration.GetConnectionString("Redis");
+                return ConnectionMultiplexer.Connect(connection);
+            });
+
+
+            builder.Services.AddBusinessService();
+            builder.Services.AddDataAccessService();
+
+            builder.Services.AddExceptionHandler<ExceptionHandlingMiddleware>();
+            builder.Services.AddProblemDetails();
+
+            builder.Services.AddSwaggerService();
 
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -24,6 +49,8 @@ namespace FashionStore.PL
             }
 
             app.UseHttpsRedirection();
+            
+            app.UseExceptionHandler();
 
             app.UseAuthorization();
 
