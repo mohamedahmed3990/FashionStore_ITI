@@ -13,36 +13,31 @@ namespace FashionStore.BLL.Validators
         public BasketItemDtoValidator()
         {
             RuleFor(b => b.Id)
-                .NotEmpty().WithMessage("ID Is Required")
-                .WithErrorCode("INVALID ID");
+                .NotEmpty().WithMessage("ID Is Required");
 
             RuleFor(p => p.ProductName)
-                .NotEmpty().WithMessage("Product name is required.")
-                .WithErrorCode("PRODUCT_NAME_REQUIRED");
+                .NotEmpty().WithMessage("Product name is required");
 
             RuleFor(p => p.PictureUrl)
-                .NotEmpty().WithMessage("Picture URL is required.")
-                .WithErrorCode("PICTURE_REQUIRED");
+                .NotEmpty().WithMessage("Picture URL is required");
 
             RuleFor(p => p.Color)
-                .NotEmpty().WithMessage("Color is required.")
-                .WithErrorCode("COLOR_REQUIRED");
+                .NotEmpty().WithMessage("Color is required");
 
             RuleFor(p => p.Size)
-                .NotEmpty().WithMessage("Size is required.")
-                .WithErrorCode("SIZE_REQUIRED");
+                .NotEmpty().WithMessage("Size is required");
+
+            RuleFor(p => p.Category)
+               .NotEmpty().WithMessage("Category is required");
 
             RuleFor(p => p.Price)
-                .NotEmpty().WithMessage("Price is required.")
-                .GreaterThan(0).WithMessage("Price must be greater than 0.")
-                .LessThanOrEqualTo(int.MaxValue).WithMessage($"Price must be in range.")
-                .WithErrorCode("PRICE_INVALID");
+                .NotEmpty().WithMessage("Price is required")
+                .GreaterThanOrEqualTo(1).WithMessage("Price must be grater than 0");
 
             RuleFor(p => p.Quantity)
-                .NotEmpty().WithMessage("Quantity is required.")
-                .GreaterThan(0).WithMessage("Quantity must be greater than 0.")
-                .LessThanOrEqualTo(int.MaxValue).WithMessage($"Quantity must be in range")
-                .WithErrorCode("QUANTITY_MISMATCH");
+                .NotEmpty().WithMessage("Quantity is required")
+                .GreaterThanOrEqualTo(1).WithMessage("Quantity must be grater than 0");
+
         }
 
     }
