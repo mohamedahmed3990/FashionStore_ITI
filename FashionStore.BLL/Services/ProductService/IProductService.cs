@@ -10,10 +10,11 @@ namespace FashionStore.BLL.Services.ProductService
     public interface IProductService
     {
         Task<IEnumerable<Product>> FilterProductsAsync(
-      int? colorId,
-      int? sizeId,
-      int? subCategoryId,
-      int? categoryId,
-      string sort);
+        string? colorName,
+        string? sizeName,
+        string? subCategoryName,
+        string? categoryName,
+        string? sortBy
+       );
     }
 }

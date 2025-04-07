@@ -17,10 +17,14 @@ namespace FashionStore.BLL.Services.ProductService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Product>> FilterProductsAsync(int? colorId, int? sizeId, int? subCategoryId, int? categoryId, string sort)
+        public async Task<IEnumerable<Product>> FilterProductsAsync(string? colorName,
+        string? sizeName,
+        string? subCategoryName,
+        string? categoryName,
+        string? sortBy)
         {
             return await _unitOfWork.ProductRepo.GetFilteredProductsAsync(
-            colorId, sizeId, subCategoryId, categoryId, sort);
+        colorName, sizeName, subCategoryName, categoryName, sortBy);
         }
     }
 }

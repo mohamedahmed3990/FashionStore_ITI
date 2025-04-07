@@ -11,10 +11,10 @@ namespace FashionStore.DAL.Interfaces
     public interface IProductRepository : IGenericRepo<Product>
     {
         Task<IEnumerable<Product>> GetFilteredProductsAsync(
-         int? colorId,
-         int? sizeId,
-         int? subCategoryId,
-         int? categoryId,
-         string sort);
+         string? colorName,
+    string? sizeName,
+    string? subCategoryName,
+    string? categoryName,
+   string? sortBy);
     }
 }
