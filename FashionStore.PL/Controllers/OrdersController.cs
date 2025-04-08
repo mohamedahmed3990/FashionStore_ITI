@@ -1,6 +1,8 @@
-﻿using FashionStore.BLL.DTOs;
+﻿using System.Security.Claims;
+using FashionStore.BLL.DTOs;
 using FashionStore.BLL.Services.OrderService;
 using FashionStore.DAL.Entities.OrderAggregate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,5 +34,20 @@ namespace FashionStore.PL.Controllers
             if (order == null) { return BadRequest(); }
             return Ok(order);
         }
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<Order>>> GetOrdersForUser()
+        {
+            var buyerEmail = User.FindFirstValue(ClaimTypes.Email);
+
+            var orders = await _orderService.GetOrdersForUserAsync(buyerEmail);
+
+            return Ok(orders);
+        }
+
+
+
     }
 }

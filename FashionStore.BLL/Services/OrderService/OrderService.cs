@@ -62,9 +62,11 @@ namespace FashionStore.BLL.Services.OrderService
             throw new NotImplementedException();
         }
 
-        public Task<List<Order>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<List<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+            var orders = await _unitOfWork.OrderRepo.GetOrdersByUserAsync(buyerEmail);
+
+            return orders.ToList();
         }
     }
 }
