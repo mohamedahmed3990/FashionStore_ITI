@@ -31,7 +31,7 @@ namespace FashionStore.PL
 
 
             builder.Services.AddBusinessService();
-            builder.Services.AddDataAccessService();
+            builder.Services.AddDataAccessService(builder.Configuration);
 
             builder.Services.AddExceptionHandler<ExceptionHandlingMiddleware>();
             builder.Services.AddProblemDetails();
