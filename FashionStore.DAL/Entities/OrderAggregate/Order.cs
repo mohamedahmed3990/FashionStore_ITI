@@ -19,7 +19,7 @@ namespace FashionStore.DAL.Entities.OrderAggregate
                      ICollection<OrderItem> items,
                      decimal subTotal)
         {
-            this.buyerEmail = buyerEmail;
+            this.BuyerEmail = buyerEmail;
             ShippingAddress = shippingAddress;
             ShippingFee = shippingFee;
             Items = items;
@@ -28,7 +28,7 @@ namespace FashionStore.DAL.Entities.OrderAggregate
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public string buyerEmail { get; set; }
+        public string BuyerEmail { get; set; }
 
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow;
 

@@ -12,6 +12,7 @@ namespace FashionStore.DAL.UnitOfWork
         public IProductRepository ProductRepo { get;}
 
         public IProductVariantRepository ProductVariantRepo { get;}
+        public IOrderRepository OrderRepo { get;}
 
         Task<int> SaveChangesAsync();
     }

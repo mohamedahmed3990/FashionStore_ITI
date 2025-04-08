@@ -20,7 +20,7 @@ namespace FashionStore.BLL.Services.OrderService
             _basketRepo = basketRepo;
             _unitOfWork = unitOfWork;
         }
-        public async Task<Order> CreateOrderAsync(string buyerEmail, string basketId, decimal shippingfee, Address shippingAddress)
+        public async Task<Order?> CreateOrderAsync(string buyerEmail, string basketId, decimal shippingfee, Address shippingAddress)
         {
             var basket = await _basketRepo.GetBasketAsync(basketId);
 
@@ -47,6 +47,7 @@ namespace FashionStore.BLL.Services.OrderService
 
             var order = new Order(buyerEmail, shippingAddress, shippingfee, orderItems, subTotal);
 
+             _unitOfWork.OrderRepo.Add(order);
 
             var resutl = await _unitOfWork.SaveChangesAsync();
 

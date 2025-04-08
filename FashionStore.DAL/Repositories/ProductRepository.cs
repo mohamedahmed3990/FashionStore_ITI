@@ -29,11 +29,11 @@ namespace FashionStore.DAL.Repositories
         }
 
         public async Task<IEnumerable<Product>> GetFilteredProductsAsync(
-    string? colorName,
-    string? sizeName,
-    string? subCategoryName,
-    string? categoryName,
-    string? sortBy = "lowest price")
+            string? colorName,
+            string? sizeName,
+            string? subCategoryName,
+            string? categoryName,
+            string? sortBy = "lowest price")
         {
             var query = _context.Products
             .Include(p => p.ProductVariants)

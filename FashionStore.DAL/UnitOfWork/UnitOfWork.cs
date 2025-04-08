@@ -13,12 +13,16 @@ namespace FashionStore.DAL.UnitOfWork
         private readonly AppDbContext _context;
         public IProductRepository ProductRepo { get; }
         public IProductVariantRepository ProductVariantRepo { get; }
+        public IOrderRepository OrderRepo { get; }
 
-        public UnitOfWork(IProductRepository productRepo, AppDbContext context, IProductVariantRepository productVariantRepo)
+        public UnitOfWork(IProductRepository productRepo, AppDbContext context,
+                          IProductVariantRepository productVariantRepo,
+                          IOrderRepository orderRepo)
         {
             ProductRepo = productRepo;
             _context = context;
             ProductVariantRepo = productVariantRepo;
+            OrderRepo = orderRepo;
         }
 
         public async Task<int> SaveChangesAsync()
