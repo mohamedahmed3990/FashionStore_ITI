@@ -27,17 +27,19 @@ namespace FashionStore.PL.Controllers
             var products = await _productService.FilterProductsAsync(
          color, size, subCategory, category, sortBy);
 
-            var productDTOs = products.Select(p => new ProductDTO
+            var productDtos = products.Select(p => new ProductDTO
             {
-                //Id = p.Id,
+                ProductId=p.Id,
                 ProductName = p.ProductName,
                 Description = p.Description,
                 ProductPicture = p.ProductPicture,
-                //SubCategoryId = p.SubCategoryId,
+                SubCategoryName = p.SubCategory?.Name,
+                CategoryName = p.SubCategory?.ParentCategory?.Name,
                 ProductVariants = p.ProductVariants.Select(pv => new ProductVariantDTO
                 {
-                    //Id = pv.Id,
-                    //ProductId = pv.ProductId,
+                    Id = pv.Id,
+                    //ProductId = pv.ProductId, 
+                    Price = pv.Price,
                     Color = new ColorDTO
                     {
                         //Id = pv.Color.Id,
@@ -48,12 +50,11 @@ namespace FashionStore.PL.Controllers
                     {
                         //Id = pv.Size.Id,
                         Name = pv.Size.Name
-                    },
-                    Price = pv.Price
+                    }
                 }).ToList()
             }).ToList();
 
-            return Ok(productDTOs);
+            return Ok(productDtos);
         }
     }
 }
