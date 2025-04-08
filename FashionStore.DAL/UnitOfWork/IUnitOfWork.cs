@@ -10,6 +10,10 @@ namespace FashionStore.DAL.UnitOfWork
     public interface IUnitOfWork
     {
         public IProductRepository ProductRepo { get;}
+        public IColorRepository ColorRepository { get;}
+        public ISizeRepository SizeRepository { get;}
+        public IParentCategoryRepository ParentCategoryRepository { get;}
+        public ISubCategoryRepository SubCategoryRepository { get;}
 
         public IProductVariantRepository ProductVariantRepo { get;}
         public IOrderRepository OrderRepo { get;}
