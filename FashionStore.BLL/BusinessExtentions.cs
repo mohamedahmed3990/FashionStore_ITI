@@ -18,6 +18,10 @@ namespace FashionStore.BLL
             services.AddScoped(typeof(IBasketService), typeof(BasketService));
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IColorService, ColorService>();
+            services.AddScoped<ISizeService, SizeService>();
+            services.AddScoped<ISubCategoryService, SubCategoryService>();
+            services.AddScoped<IParentCategoryService, ParentCategoryService>();
 
             services.AddValidatorsFromAssembly(typeof(BusinessExtentions).Assembly);
 
