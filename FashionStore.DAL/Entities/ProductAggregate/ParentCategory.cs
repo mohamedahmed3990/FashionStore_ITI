@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace FashionStore.DAL.Entities.ProductAggregate
 {
-    public class SubCategory
+    public class ParentCategory
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        // Foreign Key for ParentCategory
-        public int ParentCategoryId { get; set; }
-
-        // Navigation Property to ParentCategory
-        public ParentCategory ParentCategory { get; set; }
+        // Navigation Property to SubCategories
+        public List<SubCategory> SubCategories { get; set; }
     }
 }

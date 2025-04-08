@@ -16,7 +16,15 @@ namespace FashionStore.DAL
     {
         public static void AddDataAccessService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
+            var connectionString = configuration.GetConnectionString("Default");
+            services.AddDbContext<AppDbContext>(options =>
+                options
+                    .LogTo(Console.WriteLine)
+                    .UseSqlServer(connectionString));
+    
+                services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             services.AddDbContext<AppDbContext>(options =>
