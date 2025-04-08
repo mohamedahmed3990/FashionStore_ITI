@@ -13,8 +13,7 @@ namespace FashionStore.DAL.Entities.OrderAggregate
             
         }
 
-        public Order(Guid id,
-                     string buyerEmail,
+        public Order(string buyerEmail,
                      Address shippingAddress,
                      decimal shippingFee,
                      ICollection<OrderItem> items,
@@ -27,7 +26,7 @@ namespace FashionStore.DAL.Entities.OrderAggregate
             SubTotal = subTotal;
         }
 
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public string buyerEmail { get; set; }
 
