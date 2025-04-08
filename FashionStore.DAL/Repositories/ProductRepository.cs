@@ -21,13 +21,19 @@ namespace FashionStore.DAL.Repositories
         {
             _context = context;
         }
+        public async Task<Product?> GetProductAsync(int id)
+        {
+            return await _context.Products
+            .Include(p => p.ProductVariants)
+            .FirstOrDefaultAsync(p => p.Id == id);
+        }
 
         public async Task<IEnumerable<Product>> GetFilteredProductsAsync(
-    string? colorName,
-    string? sizeName,
-    string? subCategoryName,
-    string? categoryName,
-    string? sortBy = "lowest price")
+            string? colorName,
+            string? sizeName,
+            string? subCategoryName,
+            string? categoryName,
+            string? sortBy = "lowest price")
         {
             var query = _context.Products
             .Include(p => p.ProductVariants)

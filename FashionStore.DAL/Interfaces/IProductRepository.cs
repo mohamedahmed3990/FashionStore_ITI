@@ -12,9 +12,11 @@ namespace FashionStore.DAL.Interfaces
     {
         Task<IEnumerable<Product>> GetFilteredProductsAsync(
          string? colorName,
-    string? sizeName,
-    string? subCategoryName,
-    string? categoryName,
-   string? sortBy);
+        string? sizeName,
+        string? subCategoryName,
+        string? categoryName,
+        string? sortBy);
+
+        Task<Product?> GetProductAsync(int id);
     }
 }

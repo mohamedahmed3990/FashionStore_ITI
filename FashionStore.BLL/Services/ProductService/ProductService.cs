@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FashionStore.DAL;
 using FashionStore.DAL.Entities.ProductAggregate;
+using FashionStore.DAL.UnitOfWork;
 
 namespace FashionStore.BLL.Services.ProductService
 {
@@ -23,8 +24,7 @@ namespace FashionStore.BLL.Services.ProductService
         string? categoryName,
         string? sortBy)
         {
-            return await _unitOfWork.ProductRepo.GetFilteredProductsAsync(
-        colorName, sizeName, subCategoryName, categoryName, sortBy);
+            return await _unitOfWork.ProductRepo.GetFilteredProductsAsync(colorName, sizeName, subCategoryName, categoryName, sortBy);
         }
     }
 }

@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using FashionStore.DAL.Interfaces;
 
-namespace FashionStore.DAL
+namespace FashionStore.DAL.UnitOfWork
 {
     public interface IUnitOfWork
     {
-        public IProductRepository ProductRepo { get; }
+        public IProductRepository ProductRepo { get;}
+
+        public IProductVariantRepository ProductVariantRepo { get;}
+        public IOrderRepository OrderRepo { get;}
+
         Task<int> SaveChangesAsync();
     }
 }
