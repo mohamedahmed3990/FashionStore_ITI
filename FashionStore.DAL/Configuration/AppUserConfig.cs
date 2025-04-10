@@ -9,31 +9,31 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionStore.DAL.ClassConfig
 {
-    internal class AppUserConfig : IEntityTypeConfiguration<AppUser>
-    {
-        public void Configure(EntityTypeBuilder<AppUser> builder)
-        {
-            builder.ToTable("Users");
+    //public class AppUserConfig : IEntityTypeConfiguration<AppUser>
+    //{
+    //    public void Configure(EntityTypeBuilder<AppUser> builder)
+    //    {
+    //        //builder.ToTable("Users");
 
-            builder.Property(A=>A.FirstName)
-                   .HasMaxLength(255)
-                   .IsRequired(false);
+    //        //builder.Property(A=>A.FirstName)
+    //        //       .HasMaxLength(255)
+    //        //       .IsRequired(false);
 
-            builder.Property(A => A.LastName)
-                   .HasMaxLength(255)
-                   .IsRequired(false);
+    //        //builder.Property(A => A.LastName)
+    //        //       .HasMaxLength(255)
+    //        //       .IsRequired(false);
 
-            builder.Property(A => A.Country)
-                   .HasMaxLength(255)
-                   .IsRequired(false);
+    //        //builder.Property(A => A.Country)
+    //        //       .HasMaxLength(255)
+    //        //       .IsRequired(false);
 
-            builder.Property(A => A.City)
-                   .HasMaxLength(255)
-                   .IsRequired(false);
+    //        //builder.Property(A => A.City)
+    //        //       .HasMaxLength(255)
+    //        //       .IsRequired(false);
 
-            builder.Property(A => A.AddressDetails)
-                   .HasMaxLength(255)
-                   .IsRequired(false);
-        }
-    }
+    //        //builder.Property(A => A.AddressDetails)
+    //        //       .HasMaxLength(255)
+    //        //       .IsRequired(false);
+    //    }
+    //}
 }

@@ -19,7 +19,28 @@ namespace FashionStore.DAL.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfigurationsFromAssembly(typeof(Auth_Context).Assembly);
+            //builder.ApplyConfigurationsFromAssembly(typeof(Auth_Context).Assembly);
+            builder.Entity<AppUser>().ToTable("Users");
+
+            builder.Entity<AppUser>().Property(A => A.FirstName)
+                   .HasMaxLength(255)
+                   .IsRequired(false);
+
+            builder.Entity<AppUser>().Property(A => A.LastName)
+                   .HasMaxLength(255)
+                   .IsRequired(false);
+
+            builder.Entity<AppUser>().Property(A => A.Country)
+                   .HasMaxLength(255)
+                   .IsRequired(false);
+
+            builder.Entity<AppUser>().Property(A => A.City)
+                   .HasMaxLength(255)
+                   .IsRequired(false);
+
+            builder.Entity<AppUser>().Property(A => A.AddressDetails)
+                   .HasMaxLength(255)
+                   .IsRequired(false);
         }
 
 
