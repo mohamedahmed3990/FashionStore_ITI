@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using FashionStore.BLL.DTOs;
 using FashionStore.BLL.Services.BasketService;
 using FashionStore.DAL.Entities.OrderAggregate;
 using FashionStore.DAL.Interfaces;
@@ -20,7 +22,8 @@ namespace FashionStore.BLL.Services.OrderService
             _basketRepo = basketRepo;
             _unitOfWork = unitOfWork;
         }
-        public async Task<Order?> CreateOrderAsync(string buyerEmail, string basketId, decimal shippingfee, Address shippingAddress)
+
+        public async Task<OrderToReturnDto?> CreateOrderAsync(string buyerEmail, string basketId, decimal shippingfee, Address shippingAddress)
         {
             var basket = await _basketRepo.GetBasketAsync(basketId);
 
@@ -31,10 +34,12 @@ namespace FashionStore.BLL.Services.OrderService
                 foreach (var item in basket.Items)
                 {
                     var productVariant = await _unitOfWork.ProductVariantRepo.GetProductVariantAsync(item.Id);
+                    if (productVariant is null) return null;
 
                     var product = await _unitOfWork.ProductRepo.GetProductAsync(productVariant.ProductId);
+                    if (product is null) return null;
 
-                    var productItemOrderd = new ProductItemOrdered(product.ProductName, product.ProductPicture, productVariant.Color.Name, productVariant.Size.Name);
+                    var productItemOrderd = new ProductItemOrdered(item.Id, product.ProductName, product.ProductPicture, productVariant.Color.Name, productVariant.Size.Name);
 
                     var orderItem = new OrderItem(productItemOrderd, productVariant.Price, item.Quantity);
                 
@@ -52,21 +57,50 @@ namespace FashionStore.BLL.Services.OrderService
             var resutl = await _unitOfWork.SaveChangesAsync();
 
             if (resutl <= 0) { return null; }
-
-            return order;
+          
+            return MapOrderToDto(order); 
 
         }
 
-        public Task<Order> GetOrderByIdForUserAsync(string orderId, string buyerEmail)
+        public async Task<OrderToReturnDto?> GetOrderByIdForUserAsync(int orderId, string buyerEmail)
         {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.OrderRepo.GetOrderByUserAsync(orderId, buyerEmail);
+            if (order == null) { return null; }
+
+            return MapOrderToDto(order);
         }
 
-        public async Task<List<Order>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<List<OrderToReturnDto>> GetOrdersForUserAsync(string buyerEmail)
         {
             var orders = await _unitOfWork.OrderRepo.GetOrdersByUserAsync(buyerEmail);
 
-            return orders.ToList();
+            return orders.Select(o => MapOrderToDto(o)).ToList();
+        }
+
+
+        public OrderToReturnDto MapOrderToDto(Order order)
+        {
+            return new OrderToReturnDto
+            {
+                Id = order.Id,
+                BuyerEmail = order.BuyerEmail,
+                OrderDate = order.OrderDate,
+                Status = order.Status.ToString(),
+                ShippingAddress = order.ShippingAddress,
+                ShippingFee = order.ShippingFee,
+                SubTotal = order.SubTotal,
+                Total = order.GetTotal(),
+                Items = order.Items.Select(item => new OrderItemDto
+                {
+                    ProductId = item.Product.ProductId,
+                    ProductName = item.Product.ProductName,
+                    ProductPicture = item.Product.ProductPicture,
+                    ProductColor = item.Product.ProductColor,
+                    ProductSize = item.Product.ProductSize,
+                    Price = item.Price,
+                    Quantity = item.Quantity
+                }).ToList()
+            };
         }
     }
 }

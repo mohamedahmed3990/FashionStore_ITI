@@ -20,11 +20,21 @@ namespace FashionStore.DAL.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByUserAsync(string buyerEmail)
+        public Task<Order?> GetOrderByUserAsync(int id, string buyerEmail)
         {
-            var orders =  _context.Set<Order>().Where(o => o.BuyerEmail == buyerEmail).Include(o => o.Items).OrderByDescending(o => o.OrderDate);
+            var order = _context.Set<Order>().Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id && o.BuyerEmail == buyerEmail);
+            if (order is null) return null;
+
+            return order;
+        }
+
+        public Task<List<Order>> GetOrdersByUserAsync(string buyerEmail)
+        {
+            var orders =  _context.Set<Order>().Where(o => o.BuyerEmail == buyerEmail).Include(o => o.Items).OrderByDescending(o => o.OrderDate).ToListAsync();
 
             return orders;
         }
+
+       
     }
 }

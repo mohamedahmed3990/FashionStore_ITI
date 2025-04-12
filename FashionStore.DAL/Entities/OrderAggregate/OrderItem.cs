@@ -20,7 +20,7 @@ namespace FashionStore.DAL.Entities.OrderAggregate
             Quantity = quantity;
         }
 
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; } 
 
         public ProductItemOrdered Product{ get; set; } 
 
