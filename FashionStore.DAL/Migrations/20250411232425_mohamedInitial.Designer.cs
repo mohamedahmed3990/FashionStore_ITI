@@ -12,13 +12,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FashionStore.DAL.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:FashionStore.DAL/Migrations/20250411232425_mohamedInitial.Designer.cs
-    [Migration("20250411232425_mohamedInitial")]
-    partial class mohamedInitial
-========
+
     [Migration("20250410125107_Test")]
     partial class Test
->>>>>>>> Dev:FashionStore.DAL/Migrations/AppDb/20250410125107_Test.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
