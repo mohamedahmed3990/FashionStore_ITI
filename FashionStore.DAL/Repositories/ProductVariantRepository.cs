@@ -21,7 +21,8 @@ namespace FashionStore.DAL.Repositories
         public async Task<ProductVariant?> GetProductVariantAsync(int id)
         {
             return await _context.ProductVariants
-            .Include(p => p.Product) 
+            .Include(p => p.Color)
+            .Include(p => p.Size)
             .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
