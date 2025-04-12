@@ -198,8 +198,8 @@ namespace FashionStore.PL.Controllers
                 return BadRequest("email doesnt exist");
 
 
-            var decodedToken = WebUtility.UrlDecode(model.Token);
-            var result = await _userManager.ResetPasswordAsync(user, decodedToken, model.NewPassword);
+            //var decodedToken = WebUtility.UrlDecode(model.Token);
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
@@ -332,28 +332,7 @@ namespace FashionStore.PL.Controllers
         } 
         #endregion
 
-        [Authorize]
-        [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO model)
-        {
-            var validationResult = _changePasswprdValidator.Validate(model);
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
-
-            // Get the currently logged-in user
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
-                return Unauthorized("User not found.");
-
-            // Attempt to change password
-            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
-
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
-
-            return Ok("Password changed successfully.");
-        }
+        
 
 
     }
