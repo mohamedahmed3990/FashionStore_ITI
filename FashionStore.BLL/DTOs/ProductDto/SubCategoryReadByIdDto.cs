@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace FashionStore.BLL.DTOs.ProductDto
 {
-    public class ColorDTO
+    public class SubCategoryReadByIdDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public string Hexa { get; set; }
+
     }
 }

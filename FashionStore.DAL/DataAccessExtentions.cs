@@ -22,8 +22,16 @@ namespace FashionStore.DAL
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductVariantRepository, ProductVariantRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IColorRepository, ColorRepository>();
+            services.AddScoped<ISizeRepository, SizeRepository>();
+            services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+            services.AddScoped<IParentCategoryRepository, ParentCategoryRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+            services.AddDbContext<Auth_Context>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("AuthConnection"));
+            });
 
             services.AddDbContext<AppDbContext>(options =>
             {
