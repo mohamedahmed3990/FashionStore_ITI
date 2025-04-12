@@ -13,7 +13,6 @@ namespace FashionStore.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasKey(o => o.Id);
 
             builder.OwnsOne(o => o.ShippingAddress, sh => sh.WithOwner());
 

@@ -13,15 +13,16 @@ namespace FashionStore.DAL.Entities.OrderAggregate
             
         }
 
-        public ProductItemOrdered(string productName, string productPicture, string productColor, string productSize)
+        public ProductItemOrdered(int id, string productName, string productPicture, string productColor, string productSize)
         {
+            ProductId = id;
             ProductName = productName;
             ProductPicture = productPicture;
             ProductColor = productColor;
             ProductSize = productSize;
         }
 
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public string ProductName { get; set; }
 

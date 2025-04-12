@@ -24,9 +24,11 @@ namespace FashionStore.DAL.Migrations.AppDb
 
             modelBuilder.Entity("FashionStore.DAL.Entities.OrderAggregate.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BuyerEmail")
                         .IsRequired()
@@ -52,12 +54,14 @@ namespace FashionStore.DAL.Migrations.AppDb
 
             modelBuilder.Entity("FashionStore.DAL.Entities.OrderAggregate.OrderItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -214,8 +218,8 @@ namespace FashionStore.DAL.Migrations.AppDb
                 {
                     b.OwnsOne("FashionStore.DAL.Entities.OrderAggregate.Address", "ShippingAddress", b1 =>
                         {
-                            b1.Property<Guid>("OrderId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("OrderId")
+                                .HasColumnType("int");
 
                             b1.Property<string>("AddressDetails")
                                 .IsRequired()
@@ -249,15 +253,15 @@ namespace FashionStore.DAL.Migrations.AppDb
 
                     b.OwnsOne("FashionStore.DAL.Entities.OrderAggregate.ProductItemOrdered", "Product", b1 =>
                         {
-                            b1.Property<Guid>("OrderItemId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("OrderItemId")
+                                .HasColumnType("int");
 
                             b1.Property<string>("ProductColor")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<Guid>("ProductId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("ProductId")
+                                .HasColumnType("int");
 
                             b1.Property<string>("ProductName")
                                 .IsRequired()

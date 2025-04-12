@@ -10,5 +10,7 @@ namespace FashionStore.DAL.Interfaces
 {
     public interface IOrderRepository : IGenericRepo<Order>
     {
+        Task<List<Order>> GetOrdersByUserAsync(string buyerEmail);
+        Task<Order?> GetOrderByUserAsync(int id , string buyerEmail);
     }
 }

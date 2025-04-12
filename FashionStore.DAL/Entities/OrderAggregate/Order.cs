@@ -26,7 +26,7 @@ namespace FashionStore.DAL.Entities.OrderAggregate
             SubTotal = subTotal;
         }
 
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; } 
 
         public string BuyerEmail { get; set; }
 

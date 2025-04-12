@@ -9,8 +9,6 @@ namespace FashionStore.BLL.DTOs
 {
     public class orderDto
     {
-        public string BuyerEmail { get; set; }
-
         public string BasketId { get; set; }
 
         public AddressDto ShippingAddress { get; set; }
