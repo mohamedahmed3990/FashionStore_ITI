@@ -121,6 +121,18 @@ namespace FashionStore.DAL.Repositories
 
             return products;
         }
+        public async Task<Product> GetProductWithDetailsAsync(int id)
+        {
+            return await _context.Products
+                .Include(p => p.ProductVariants)
+                    .ThenInclude(pv => pv.Color)
+                .Include(p => p.ProductVariants)
+                    .ThenInclude(pv => pv.Size)
+                .Include(p => p.SubCategory)
+                    .ThenInclude(sc => sc.ParentCategory)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
 
     }
 }

@@ -18,5 +18,7 @@ namespace FashionStore.DAL.Interfaces
         string? sortBy);
 
         Task<Product?> GetProductAsync(int id);
+        Task<Product> GetProductWithDetailsAsync(int id);
+
     }
 }
