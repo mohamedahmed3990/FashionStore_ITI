@@ -63,6 +63,27 @@ namespace FashionStore.BLL.Services.BasketService
         }
 
 
+        public async Task MigrateBasketAsync(string guestId, string userId)
+        {
+            var guestBasket = await _basketRepo.GetBasketAsync(guestId);
+
+            var userBasket = await _basketRepo.GetBasketAsync(userId) ?? new CustomerBasket(userId);
+
+            if (guestBasket != null)
+            {
+                foreach (var item in guestBasket.Items)
+                {
+                    var existingItem = userBasket.Items.FirstOrDefault(i => i.Id == item.Id);
+                    if (existingItem != null)
+                        existingItem.Quantity += item.Quantity;
+                    else
+                        userBasket.Items.Add(item);
+                }
+
+                await _basketRepo.UpdateBasketAsync(userBasket);
+                await _basketRepo.DeleteBasketAsync(guestId);
+            }
+        }
 
         private CustomerBasket MapToCustomerBasket(CustomerBasketDto customerBasketDto)
         {

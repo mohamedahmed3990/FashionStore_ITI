@@ -17,13 +17,15 @@ namespace FashionStore.DAL.Entities.OrderAggregate
                      Address shippingAddress,
                      decimal shippingFee,
                      ICollection<OrderItem> items,
-                     decimal subTotal)
+                     decimal subTotal,
+                     string paymentIntentId)
         {
             this.BuyerEmail = buyerEmail;
             ShippingAddress = shippingAddress;
             ShippingFee = shippingFee;
             Items = items;
             SubTotal = subTotal;
+            PaymentIntentId = paymentIntentId;
         }
 
         public int Id { get; set; } 
@@ -42,6 +44,8 @@ namespace FashionStore.DAL.Entities.OrderAggregate
         public decimal SubTotal { get; set; }
 
         public decimal GetTotal() => SubTotal + ShippingFee;
+
+        public string PaymentIntentId { get; set; }
 
 
 
