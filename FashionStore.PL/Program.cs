@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using FashionStore.BLL;
 using FashionStore.BLL.Services.AuthServices;
+using FashionStore.BLL.Services.PaymentService;
 using FashionStore.BLL.Services.TokenServices;
 using FashionStore.BLL.Validators;
 using FashionStore.DAL;
@@ -56,6 +57,8 @@ namespace FashionStore.PL
                 return ConnectionMultiplexer.Connect(connection);
             });
 
+            //builder.Services.AddSingleton<IBasketRepository,BasketRepository>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<TokenServices>();
             builder.Services.AddBusinessService();
             builder.Services.AddDataAccessService(builder.Configuration);
@@ -79,9 +82,11 @@ namespace FashionStore.PL
 
                 options.User.RequireUniqueEmail = true;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<Auth_Context>()
                 .AddSignInManager()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddRoleManager<RoleManager<IdentityRole>>();
 
             #endregion
 
@@ -211,11 +216,20 @@ namespace FashionStore.PL
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(builder.Configuration["JwtSecretKey"]!))
                 };
-            }); 
+            });
             #endregion
 
             #endregion
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
 
             var app = builder.Build();
 
@@ -231,6 +245,7 @@ namespace FashionStore.PL
 
             app.UseExceptionHandler();
             app.UseCookiePolicy();
+            app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
 
