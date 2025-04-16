@@ -35,6 +35,11 @@ namespace FashionStore.DAL.Repositories
             return orders;
         }
 
+        public Task<Order?> GetOrderByPaymentIntentId(string paymentIntentId)
+        {
+            var order = _context.Set<Order>().FirstOrDefaultAsync(o => o.PaymentIntentId == paymentIntentId);
+            return order;
+        }
        
     }
 }

@@ -12,5 +12,6 @@ namespace FashionStore.DAL.Interfaces
     {
         Task<List<Order>> GetOrdersByUserAsync(string buyerEmail);
         Task<Order?> GetOrderByUserAsync(int id , string buyerEmail);
+        Task<Order?> GetOrderByPaymentIntentId(string paymentIntentId);
     }
 }

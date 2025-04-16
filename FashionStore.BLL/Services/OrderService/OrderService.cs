@@ -16,11 +16,13 @@ namespace FashionStore.BLL.Services.OrderService
     {
         private readonly IBasketRepository _basketRepo;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentService _paymentService;
 
-        public OrderService(IBasketRepository basketRepo, IUnitOfWork unitOfWork)
+        public OrderService(IBasketRepository basketRepo, IUnitOfWork unitOfWork, IPaymentService paymentService)
         {
             _basketRepo = basketRepo;
             _unitOfWork = unitOfWork;
+            _paymentService = paymentService;
         }
 
         public async Task<OrderToReturnDto?> CreateOrderAsync(string buyerEmail, string basketId, decimal shippingfee, Address shippingAddress)
@@ -39,7 +41,7 @@ namespace FashionStore.BLL.Services.OrderService
                     var product = await _unitOfWork.ProductRepo.GetProductAsync(productVariant.ProductId);
                     if (product is null) return null;
 
-                    var productItemOrderd = new ProductItemOrdered(item.Id, product.ProductName, product.ProductPicture, productVariant.Color.Name, productVariant.Size.Name);
+                    var productItemOrderd = new ProductItemOrdered(product.Id, product.ProductName, product.ProductPicture, productVariant.Color.Name, productVariant.Size.Name);
 
                     var orderItem = new OrderItem(productItemOrderd, productVariant.Price, item.Quantity);
                 
@@ -47,11 +49,20 @@ namespace FashionStore.BLL.Services.OrderService
                 }
             }
 
-            var subTotal = orderItems.Sum(orderItem => orderItem.Price *  orderItem.Quantity);  
+            var subTotal = orderItems.Sum(orderItem => orderItem.Price *  orderItem.Quantity);
+
+            var orderRepo = _unitOfWork.OrderRepo;
+            var existOrder = await orderRepo.GetOrderByPaymentIntentId(basket.PaymentIntentId);
+
+            if(existOrder is not null)
+            {
+                orderRepo.Delete(existOrder);
+                await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+            }
 
 
-            var order = new Order(buyerEmail, shippingAddress, shippingfee, orderItems, subTotal);
-
+            var order = new Order(buyerEmail, shippingAddress, shippingfee, orderItems, subTotal, basket.PaymentIntentId);
+            
              _unitOfWork.OrderRepo.Add(order);
 
             var resutl = await _unitOfWork.SaveChangesAsync();
@@ -77,7 +88,6 @@ namespace FashionStore.BLL.Services.OrderService
             return orders.Select(o => MapOrderToDto(o)).ToList();
         }
 
-
         public OrderToReturnDto MapOrderToDto(Order order)
         {
             return new OrderToReturnDto
@@ -99,7 +109,8 @@ namespace FashionStore.BLL.Services.OrderService
                     ProductSize = item.Product.ProductSize,
                     Price = item.Price,
                     Quantity = item.Quantity
-                }).ToList()
+                }).ToList(),
+                PaymentIntentId = order.PaymentIntentId
             };
         }
     }
