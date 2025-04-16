@@ -58,7 +58,7 @@ namespace FashionStore.PL
             });
 
             //builder.Services.AddSingleton<IBasketRepository,BasketRepository>();
-            builder.Services.AddSingleton<IPaymentService, PaymentService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<TokenServices>();
             builder.Services.AddBusinessService();
             builder.Services.AddDataAccessService(builder.Configuration);
@@ -221,6 +221,15 @@ namespace FashionStore.PL
 
             #endregion
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
 
             var app = builder.Build();
 
@@ -236,6 +245,7 @@ namespace FashionStore.PL
 
             app.UseExceptionHandler();
             app.UseCookiePolicy();
+            app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
 

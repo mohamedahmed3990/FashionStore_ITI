@@ -66,9 +66,10 @@ namespace FashionStore.BLL.Services.PaymentService
 
                 await service.UpdateAsync(basket.PaymentIntentId, options);
 
-                await _basketRepo.UpdateBasketAsync(basket);
-                return basket;
+                
             }
+            await _basketRepo.UpdateBasketAsync(basket);
+            return basket;
         }
     }
 }
