@@ -42,7 +42,7 @@ namespace FashionStore.BLL.Services.PaymentService
             }
 
             PaymentIntent paymentIntent;
-            var service = new PaymentIntentService;
+            var service = new PaymentIntentService();
             if (string.IsNullOrEmpty(basket.PaymentIntentId))
             {
                 var options = new PaymentIntentCreateOptions()
