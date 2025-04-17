@@ -10,7 +10,7 @@ using FashionStore.DAL.UnitOfWork;
 
 namespace FashionStore.BLL.Services.ProductService
 {
-    public class ProductService :IProductService
+    public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -42,13 +42,16 @@ namespace FashionStore.BLL.Services.ProductService
                 CategoryName = product.SubCategory?.ParentCategory?.Name,
                 ProductVariants = product.ProductVariants.Select(pv => new ProductVariantDTO
                 {
+                    Id = pv.Id,
                     Color = new ColorDTO
                     {
+                        Id = pv.Color.Id,
                         Name = pv.Color.Name,
                         Hexa = pv.Color.Hexa
                     },
                     Size = new SizeDTO
                     {
+                        Id = pv.Size.Id,
                         Name = pv.Size.Name
                     },
                     Price = pv.Price
@@ -56,6 +59,6 @@ namespace FashionStore.BLL.Services.ProductService
             };
         }
 
-     
+
     }
 }
