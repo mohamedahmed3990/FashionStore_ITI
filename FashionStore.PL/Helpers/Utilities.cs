@@ -14,7 +14,7 @@ namespace FashionStore.PL.Helpers
             var keyinBytes = Encoding.UTF8.GetBytes(secretkey);
             var key = new SymmetricSecurityKey(keyinBytes);
 
-            var expires = rememberMe ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(1);
+            var expires = rememberMe ? DateTime.Now.AddDays(7) : DateTime.Now.AddDays(1);
 
             var token = new JwtSecurityToken(
                     expires: expires,

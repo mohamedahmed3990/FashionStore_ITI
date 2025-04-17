@@ -106,7 +106,7 @@ namespace FashionStore.PL.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
-                return Ok("Data Has been Updated Successfully");
+                return Ok(new {message = "Data Has been Updated Successfully" });
             }
             catch (Exception ex)
             {
