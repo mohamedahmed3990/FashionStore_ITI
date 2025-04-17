@@ -211,12 +211,18 @@ namespace FashionStore.PL
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(builder.Configuration["JwtSecretKey"]!))
                 };
-            }); 
+            });
             #endregion
 
             #endregion
 
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder =>
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader());
+            });
             var app = builder.Build();
 
 
@@ -229,6 +235,8 @@ namespace FashionStore.PL
 
             app.UseHttpsRedirection();
 
+
+            app.UseCors("AllowAllOrigins");
             app.UseExceptionHandler();
             app.UseCookiePolicy();
             app.UseAuthentication();
