@@ -11,10 +11,12 @@ namespace FashionStore.PL.Controllers
     public class ProductVariantController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IConfiguration _configuration;
 
-        public ProductVariantController(IProductService productService)
+        public ProductVariantController(IProductService productService, IConfiguration configuration)
         {
            _productService = productService;
+            _configuration = configuration;
         }
         [HttpGet("filter")]
         public async Task<IActionResult> FilterVariants(
@@ -32,7 +34,7 @@ namespace FashionStore.PL.Controllers
                 ProductId=p.Id,
                 ProductName = p.ProductName,
                 Description = p.Description,
-                ProductPicture = p.ProductPicture,
+                ProductPicture = $"{_configuration["local"]}/Images/{p.ProductPicture}",
                 SubCategoryName = p.SubCategory?.Name,
                 CategoryName = p.SubCategory?.ParentCategory?.Name,
                 ProductVariants = p.ProductVariants.Select(pv => new ProductVariantDTO

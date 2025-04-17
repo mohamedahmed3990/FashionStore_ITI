@@ -15,5 +15,7 @@ namespace FashionStore.BLL.Services.BasketService
         Task<CustomerBasketDto?> UpdateBasketAsync(CustomerBasketDto basket);
 
         Task<bool> DeleteBasketAsync(string basketId);
+
+        Task MigrateBasketAsync(string guestId, string userId);
     }
 }

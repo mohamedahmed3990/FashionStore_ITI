@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using FashionStore.BLL;
 using FashionStore.BLL.Services.AuthServices;
+using FashionStore.BLL.Services.PaymentService;
 using FashionStore.BLL.Services.TokenServices;
 using FashionStore.BLL.Validators;
 using FashionStore.DAL;
@@ -18,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
@@ -56,6 +58,8 @@ namespace FashionStore.PL
                 return ConnectionMultiplexer.Connect(connection);
             });
 
+            //builder.Services.AddSingleton<IBasketRepository,BasketRepository>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<TokenServices>();
             builder.Services.AddBusinessService();
             builder.Services.AddDataAccessService(builder.Configuration);
@@ -79,9 +83,11 @@ namespace FashionStore.PL
 
                 options.User.RequireUniqueEmail = true;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<Auth_Context>()
                 .AddSignInManager()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddRoleManager<RoleManager<IdentityRole>>();
 
             #endregion
 
@@ -218,11 +224,14 @@ namespace FashionStore.PL
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllOrigins", builder =>
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader());
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
             });
+
             var app = builder.Build();
 
 
@@ -234,11 +243,14 @@ namespace FashionStore.PL
             }
 
             app.UseHttpsRedirection();
-
-
-            app.UseCors("AllowAllOrigins");
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+                RequestPath = "/images"
+            });
             app.UseExceptionHandler();
             app.UseCookiePolicy();
+            app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
 
