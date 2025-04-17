@@ -39,7 +39,7 @@ namespace FashionStore.PL.Controllers
             return Ok(basketResult);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task DeleteBasket(string id)
         {
             await _basketService.DeleteBasketAsync(id);

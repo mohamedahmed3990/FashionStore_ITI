@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FashionStore.BLL.DTOs;
 using FashionStore.BLL.Services.BasketService;
+using FashionStore.BLL.Services.PaymentService;
 using FashionStore.DAL.Entities.OrderAggregate;
 using FashionStore.DAL.Interfaces;
 using FashionStore.DAL.UnitOfWork;
