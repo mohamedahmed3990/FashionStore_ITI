@@ -9,6 +9,7 @@ using FashionStore.BLL.Validators;
 using FashionStore.DAL.Entities;
 using FashionStore.DAL.Interfaces;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 
 namespace FashionStore.BLL.Services.BasketService
@@ -17,11 +18,13 @@ namespace FashionStore.BLL.Services.BasketService
     {
         private readonly IBasketRepository _basketRepo;
         private readonly CustomerBasketDtoValidator _validator;
+        private readonly IConfiguration _configuration;
 
-        public BasketService(IBasketRepository basketRepo, CustomerBasketDtoValidator validator)
+        public BasketService(IBasketRepository basketRepo, CustomerBasketDtoValidator validator, IConfiguration configuration)
         {
             _basketRepo = basketRepo;
             _validator = validator;
+            _configuration = configuration;
         }
 
         public async Task<bool> DeleteBasketAsync(string basketId)

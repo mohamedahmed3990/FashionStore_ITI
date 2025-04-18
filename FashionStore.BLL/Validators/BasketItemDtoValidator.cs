@@ -27,8 +27,8 @@ namespace FashionStore.BLL.Validators
             RuleFor(p => p.Size)
                 .NotEmpty().WithMessage("Size is required");
 
-            RuleFor(p => p.Category)
-               .NotEmpty().WithMessage("Category is required");
+            //RuleFor(p => p.Category)
+            //   .NotEmpty().WithMessage("Category is required");
 
             RuleFor(p => p.Price)
                 .NotEmpty().WithMessage("Price is required")

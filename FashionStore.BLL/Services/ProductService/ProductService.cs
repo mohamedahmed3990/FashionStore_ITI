@@ -7,16 +7,19 @@ using FashionStore.BLL.DTOs.ProductDto;
 using FashionStore.DAL;
 using FashionStore.DAL.Entities.ProductAggregate;
 using FashionStore.DAL.UnitOfWork;
+using Microsoft.Extensions.Configuration;
 
 namespace FashionStore.BLL.Services.ProductService
 {
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
 
-        public ProductService(IUnitOfWork unitOfWork)
+        public ProductService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<Product>> FilterProductsAsync(string? colorName,
@@ -37,7 +40,7 @@ namespace FashionStore.BLL.Services.ProductService
             {
                 ProductName = product.ProductName,
                 Description = product.Description,
-                ProductPicture = product.ProductPicture,
+                ProductPicture = $"{_configuration["local"]}/Images/{product.ProductPicture}",
                 SubCategoryName = product.SubCategory?.Name,
                 CategoryName = product.SubCategory?.ParentCategory?.Name,
                 ProductVariants = product.ProductVariants.Select(pv => new ProductVariantDTO

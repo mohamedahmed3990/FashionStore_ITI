@@ -45,16 +45,7 @@ namespace FashionStore.PL.Controllers
             await _basketService.DeleteBasketAsync(id);
         }
 
-        [HttpPost("migrate/{id}")]
-        [Authorize]
-        public async Task<ActionResult> MigrateBasket(string id)
-        {
-            var userId = User?.Identity?.Name;
-            if (userId is null) return Unauthorized();
-
-            await _basketService.MigrateBasketAsync(id, userId);
-            return Ok();
-        }
+        
 
             
     }
